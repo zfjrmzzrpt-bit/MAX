@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JCP Jose's Communication Protocol v4.1 - Premium</title>
+<title>Jose's Communication Protocol</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
 <!-- Firebase CDN -->
@@ -12,7 +12,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 
 <style>
-  /* ========== ESTILOS (igual que antes, no cambio nada) ========== */
+  /* ========== ESTILOS MEJORADOS ========== */
   :root {
     --bg: #090D16;
     --sidebar-bg: #030712;
@@ -143,7 +143,21 @@
   .sidebar-menu { padding: 1.5rem 1rem; flex: 1; overflow-y: auto; }
   .menu-section { margin-bottom: 1.75rem; }
   .menu-label { font-size: 11px; font-weight: 700; color: var(--text-faint); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 0.6rem; padding-left: 0.5rem; }
-  .menu-item { display: flex; align-items: center; padding: 11px 14px; color: var(--sidebar-text); font-size: 13px; font-weight: 600; text-decoration: none; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; margin-bottom: 5px; border: 1px solid transparent; }
+  /* --- LETRAS MÁS GRANDES EN EL MENÚ --- */
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 11px 14px;
+    color: var(--sidebar-text);
+    font-size: 16px; /* Aumentado de 13px a 16px */
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 5px;
+    border: 1px solid transparent;
+  }
   .menu-item:hover { background: var(--sidebar-hover); color: #FFF; border-color: rgba(255,255,255,0.02); }
   .menu-item.active { background: linear-gradient(90deg, rgba(59,130,246,0.15) 0%, rgba(59,130,246,0.02) 100%); color: #60A5FA; border-left: 3px solid var(--accent); font-weight: 700; }
   .menu-item.line-a { border-left-color: var(--teal); }
@@ -346,7 +360,7 @@
 <!-- ===== LOGIN ===== -->
 <div id="login-screen">
   <div class="login-box">
-    <h1>🔐 JCP Jose's Communication Protocol</h1>
+    <h1>📡 Jose's Communication Protocol</h1>
     <p>Inicia sesión para acceder al sistema</p>
     <div class="form-group"><label>Correo electrónico</label><input type="email" id="login-email" placeholder="tu@email.com" autocomplete="email"></div>
     <div class="form-group"><label>Contraseña</label><input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"></div>
@@ -367,15 +381,16 @@
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="brand-logo">JCP</div>
-        <div class="brand-meta"><h2>Jose's Communication Protocol</h2><span>PRO v1.0</span></div>
+        <div class="brand-meta"><h2>Jose's Communication Protocol</h2><span>v1.0</span></div>
       </div>
       <div class="sidebar-menu">
         <div class="menu-section">
           <div class="menu-label">📂 Flows Assignment</div>
-          <div class="menu-item line-a" id="menu-line-a" onclick="switchTab('Line A')">○ Line A Matrix (10d)</div>
-          <div class="menu-item line-b" id="menu-line-b" onclick="switchTab('Line B')">○ Line B Matrix (10d)</div>
-          <div class="menu-item line-c active" id="menu-line-c" onclick="switchTab('Line C')">○ Line C Matrix (10d)</div>
-          <div class="menu-item line-d" id="menu-line-d" onclick="switchTab('Line D')">○ Line D Matrix (15d)</div>
+          <!-- Líneas sin "(10d)" ni "(15d)" y con letras más grandes (ya en CSS) -->
+          <div class="menu-item line-a" id="menu-line-a" onclick="switchTab('Line A')">○ Line A</div>
+          <div class="menu-item line-b" id="menu-line-b" onclick="switchTab('Line B')">○ Line B</div>
+          <div class="menu-item line-c active" id="menu-line-c" onclick="switchTab('Line C')">○ Line C</div>
+          <div class="menu-item line-d" id="menu-line-d" onclick="switchTab('Line D')">○ Line D</div>
         </div>
         <div class="menu-section">
           <div class="menu-label">📊 Metrics Filters</div>
@@ -403,8 +418,9 @@
       <div class="view-viewport" id="viewport">
         <div class="view-header">
           <div class="view-title">
-            <h3 id="current-workflow-title">💼 Current Workflow: Line C Matrix (10d)</h3>
-            <p>Automated Legal Workflow Engine & Strategic Client Intervals</p>
+            <!-- Título sin "Matrix" ni "(10d)" -->
+            <h3 id="current-workflow-title">💼 Current Workflow: Line C</h3>
+            <p>Jose's Communication Protocol - Strategic Client Management</p>
           </div>
           <button class="btn btn-primary" onclick="openAdd()">➕ Add New Case</button>
         </div>
@@ -457,7 +473,7 @@
 <!-- ===== MODALES ===== -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <h2>Add New Protocol Client</h2>
+    <h2>Add New Client</h2> <!-- Cambiado -->
     <div class="form-group"><label>Client Name & ID Case *</label><input type="text" id="f-name" placeholder="e.g. 7874 Evangelina Lara"></div>
     <div class="form-group">
       <label>Workflow Assignment *</label>
@@ -629,7 +645,7 @@ function initials(name) {
 }
 
 // ============================================================
-// MAPEO DE LÍNEAS
+// MAPEO DE LÍNEAS (COMPATIBLE CON DATOS EXISTENTES)
 // ============================================================
 const FLOW_DISPLAY_MAP = {
   'Francy': 'Line C',
@@ -737,7 +753,7 @@ function saveLocal(data) {
   localStorage.setItem(KEY, JSON.stringify(data));
 }
 
-// --- Persistencia: Firestore (SOLO COLECCIÓN, sin respaldo) ---
+// --- Persistencia: Firestore ---
 async function saveToCloud(newData) {
   showSaving();
   let errors = [];
@@ -762,7 +778,6 @@ async function saveToCloud(newData) {
       console.log(`✅ Cliente ${i} (${client.name || client.id}) guardado`);
     } catch (error) {
       console.error(`❌ Error guardando cliente ${i}:`, client.name || client.id, error);
-      console.log('📦 Cliente problemático:', JSON.stringify(client, null, 2));
       errors.push({
         index: i,
         client: client,
@@ -804,7 +819,7 @@ async function loadFromCloud() {
       }
     });
 
-    console.log(`✅ Datos cargados desde la nueva colección: ${loaded.length} clientes`);
+    console.log(`✅ Datos cargados desde Firebase: ${loaded.length} clientes`);
     return loaded;
 
   } catch (error) {
@@ -938,8 +953,8 @@ function switchTab(displayFlow) {
   const menuMap = { 'Line A': 'menu-line-a', 'Line B': 'menu-line-b', 'Line C': 'menu-line-c', 'Line D': 'menu-line-d' };
   const menuId = menuMap[displayFlow];
   if (menuId) document.getElementById(menuId).classList.add('active');
-  const config = getLineConfig(internalFlow);
-  document.getElementById('current-workflow-title').innerText = `💼 Current Workflow: ${displayFlow} Matrix (${config.interval}d / ${config.step}d)`;
+  // Título sin "Matrix" ni "(10d)"
+  document.getElementById('current-workflow-title').innerText = `💼 Current Workflow: ${displayFlow}`;
   resetPagination();
   render();
 }
@@ -1012,23 +1027,15 @@ function updateMilestoneDate(id, key, val) {
   }
 }
 
-// ===== DELETE CLIENT (CORREGIDO) =====
+// ===== DELETE CLIENT =====
 async function deleteClient(id) {
   const c = clients.find(x => x.id === id);
   if (!c) return;
   if (confirm(`¿Estás seguro de eliminar permanentemente el caso "${escapeHtml(c.name)}"?`)) {
     try {
-      // 1. Eliminar de Firestore
       await db.collection("clients").doc(id).delete();
-      console.log(`✅ Documento ${id} eliminado de Firestore`);
-
-      // 2. Eliminar de la lista local
       clients = clients.filter(x => x.id !== id);
-
-      // 3. Guardar cambios (actualizar el resto en Firestore y localStorage)
       await saveAndSync(clients);
-
-      // 4. Actualizar UI
       resetPagination();
       render();
       showToast('🗑️ Caso eliminado correctamente', 'success');
@@ -1476,7 +1483,7 @@ function render() {
 }
 
 // ============================================================
-// INICIALIZACIÓN
+// INICIALIZACIÓN (ÚNICA Y CORRECTA)
 // ============================================================
 let searchTimer = null;
 document.getElementById('search').addEventListener('input', function() {
@@ -1489,28 +1496,30 @@ async function initApp() {
     const cloudData = await loadFromCloud();
     clients = cloudData || loadLocal();
     console.log(`📊 Total de clientes cargados: ${clients.length}`);
+    // Mostrar distribución para depuración
+    const distribution = {};
+    clients.forEach(c => {
+      const flow = c.flow || 'sin línea';
+      distribution[flow] = (distribution[flow] || 0) + 1;
+    });
+    console.log('📊 Distribución:', distribution);
+    render();
   } catch (e) {
     console.error("Error en inicialización:", e);
     clients = loadLocal();
+    render();
   }
+  // Iniciar en la línea C (o la que corresponda)
   switchTab('Line C');
+  // Cierre de sesión automático después de 8 horas
   setTimeout(() => {
     auth.signOut();
     alert('⏰ Sesión expirada por seguridad. Vuelve a iniciar sesión.');
   }, 8 * 60 * 60 * 1000);
 }
 </script>
-<script>
-async function initApp() {
-    console.error("Error en inicialización:", e);
-    clients = loadLocal();
-}
-switchTab('Line C');
-setTimeout(() => {
-    auth.signout();
-    alert(' Sesión expirada por seguridad. Vuelve a iniciar sesión.');
-}, 8 * 60 * 60 * 1000);
-</script>
+
+<!-- ===== FOOTER ===== -->
 <footer style="
     text-align: center; 
     padding: 18px 2rem; 
@@ -1537,5 +1546,6 @@ setTimeout(() => {
         ✦ Strategic Client Management System ✦
     </div>
 </footer>
+
 </body>
 </html>
