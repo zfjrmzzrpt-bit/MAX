@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JCP Protocol Engine v4.1 - Premium</title>
+<title>JCP Jose's Communication Protocol v4.1 - Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
 <!-- Firebase CDN -->
@@ -346,7 +346,7 @@
 <!-- ===== LOGIN ===== -->
 <div id="login-screen">
   <div class="login-box">
-    <h1>🔐 JCP Protocol Engine</h1>
+    <h1>🔐 JCP Jose's Communication Protocol</h1>
     <p>Inicia sesión para acceder al sistema</p>
     <div class="form-group"><label>Correo electrónico</label><input type="email" id="login-email" placeholder="tu@email.com" autocomplete="email"></div>
     <div class="form-group"><label>Contraseña</label><input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"></div>
@@ -367,7 +367,7 @@
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="brand-logo">JCP</div>
-        <div class="brand-meta"><h2>Protocol Engine</h2><span>PRO v4.1 Premium</span></div>
+        <div class="brand-meta"><h2>Jose's Communication Protocol</h2><span>PRO v4.1 Premium</span></div>
       </div>
       <div class="sidebar-menu">
         <div class="menu-section">
@@ -1500,5 +1500,42 @@ async function initApp() {
   }, 8 * 60 * 60 * 1000);
 }
 </script>
+<script>
+async function initApp() {
+    console.error("Error en inicialización:", e);
+    clients = loadLocal();
+}
+switchTab('Line C');
+setTimeout(() => {
+    auth.signout();
+    alert(' Sesión expirada por seguridad. Vuelve a iniciar sesión.');
+}, 8 * 60 * 60 * 1000);
+</script>
+<footer style="
+    text-align: center; 
+    padding: 18px 2rem; 
+    color: #94A3B8; 
+    font-size: 13px; 
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(10px);
+    margin-top: 2rem;
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;">
+        <span style="font-size: 16px;">⚡</span>
+        <span>Powered by <strong style="color: #60A5FA; font-weight: 700; letter-spacing: 0.5px;">Yosvalso Maizo</strong></span>
+        <span style="color: #475569;">|</span>
+        <span style="color: #64748B; font-size: 11px;">Jose's Communication Protocol v1.0</span>
+        <span style="color: #475569;">|</span>
+        <span style="font-size: 11px; color: #475569;">© 2026</span>
+    </div>
+    <div style="font-size: 10px; color: #475569; margin-top: 4px; letter-spacing: 0.5px;">
+        ✦ Strategic Client Management System ✦
+    </div>
+</footer>
 </body>
 </html>
