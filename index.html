@@ -12,7 +12,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 
 <style>
-  /* ========== ESTILOS () ========== */
+  /* ========== ESTILOS ========== */
   :root {
     --bg: #090D16;
     --sidebar-bg: #030712;
@@ -302,7 +302,13 @@
   .btn-reminder:hover { background: rgba(245,158,11,0.2); }
   .btn-stats { background: var(--purple-bg); color: var(--purple-dark); border-color: rgba(168,85,247,0.3); font-size: 11px; padding: 4px 12px; }
 
-  .history-container { margin-top: 2.5rem; border-top: 2px dashed var(--border); padding-top: 1.5rem;p adding-bottom: 80px; }
+  .history-container { 
+    margin-top: 2.5rem; 
+    border-top: 2px dashed var(--border); 
+    padding-top: 1.5rem; 
+    padding-bottom: 90px; /* Espacio para el footer */
+  }
+  
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
   .modal-overlay.open { display: flex; }
   .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; width: 100%; max-width: 520px; box-shadow: var(--shadow); max-height: 90vh; overflow-y: auto; }
@@ -673,35 +679,6 @@ function getAvatarClass(flow) {
 }
 
 // ============================================================
-// SANITIZACIÓN PROFUNDA
-// ============================================================
-function deepSanitize(obj) {
-  if (obj === null || obj === undefined) return null;
-  if (typeof obj !== 'object') return obj;
-  if (obj instanceof Date) return obj.toISOString().split('T')[0];
-  if (Array.isArray(obj)) {
-    return obj.map(item => deepSanitize(item)).filter(item => item !== null && item !== undefined);
-  }
-  const clean = {};
-  for (const [key, value] of Object.entries(obj)) {
-    if (value === undefined || value === null) continue;
-    if (value instanceof Date) {
-      clean[key] = value.toISOString().split('T')[0];
-      continue;
-    }
-    if (typeof value === 'object' && !Array.isArray(value)) {
-      const nested = deepSanitize(value);
-      if (nested !== null && nested !== undefined) {
-        clean[key] = nested;
-      }
-    } else {
-      clean[key] = value;
-    }
-  }
-  return clean;
-}
-
-// ============================================================
 // CÓDIGO PRINCIPAL
 // ============================================================
 const KEY = 'jpc_protocol_tracker_v7_dark';
@@ -737,7 +714,7 @@ function saveLocal(data) {
   localStorage.setItem(KEY, JSON.stringify(data));
 }
 
-// --- Persistencia: Firestore (SOLO COLECCIÓN, sin respaldo) ---
+// --- Persistencia: Firestore ---
 async function saveToCloud(newData) {
   showSaving();
   let errors = [];
@@ -745,36 +722,23 @@ async function saveToCloud(newData) {
   for (let i = 0; i < newData.length; i++) {
     const client = newData[i];
     try {
-      let clean = deepSanitize(client);
-      if (!clean) {
-        errors.push({ index: i, client: client, error: 'deepSanitize devolvió null' });
-        continue;
-      }
+      if (!client.id) client.id = `client_${Date.now()}_${Math.random()}`;
+      if (!client.done) client.done = {};
+      if (!client.cl_uploaded_milestones) client.cl_uploaded_milestones = {};
+      if (!client.reminders) client.reminders = [];
 
-      if (!clean.id) clean.id = `client_${Date.now()}_${Math.random()}`;
-      if (!clean.done) clean.done = {};
-      if (!clean.cl_uploaded_milestones) clean.cl_uploaded_milestones = {};
-      if (!clean.reminders) clean.reminders = [];
-
-      const docRef = db.collection("clients").doc(clean.id);
-      await docRef.set(clean);
+      const docRef = db.collection("clients").doc(client.id);
+      await docRef.set(client);
       
-      console.log(`✅ Cliente ${i} (${client.name || client.id}) guardado`);
+      console.log(`✅ Cliente ${i} guardado`);
     } catch (error) {
-      console.error(`❌ Error guardando cliente ${i}:`, client.name || client.id, error);
-      console.log('📦 Cliente problemático:', JSON.stringify(client, null, 2));
-      errors.push({
-        index: i,
-        client: client,
-        name: client.name || client.id,
-        error: error.message
-      });
+      console.error(`❌ Error guardando cliente ${i}:`, error);
+      errors.push({ index: i, client: client, error: error.message });
     }
   }
 
   if (errors.length > 0) {
-    const errorDetails = errors.map(e => `- ${e.name || e.client.id}: ${e.error}`).join('\n');
-    alert(`❌ Error al guardar algunos clientes:\n\n${errorDetails}\n\nRevisa la consola (F12) para más detalles.`);
+    alert(`❌ Error al guardar algunos clientes.\nRevisa la consola (F12) para más detalles.`);
   } else {
     console.log("✅ Todos los clientes guardados correctamente.");
     showToast('✅ Datos guardados', 'success');
@@ -804,7 +768,7 @@ async function loadFromCloud() {
       }
     });
 
-    console.log(`✅ Datos cargados desde la nueva colección: ${loaded.length} clientes`);
+    console.log(`✅ Datos cargados: ${loaded.length} clientes`);
     return loaded;
 
   } catch (error) {
@@ -875,13 +839,7 @@ function getMilestones(ld, flow, clientObj = null) {
 
   const cleanCustom = {};
   for (const [key, value] of Object.entries(custom)) {
-    if (value && typeof value === 'object') {
-      if (value instanceof Date) {
-        cleanCustom[key] = value.toISOString().split('T')[0];
-      } else {
-        cleanCustom[key] = String(value);
-      }
-    } else if (value !== undefined && value !== null) {
+    if (value !== undefined && value !== null) {
       cleanCustom[key] = String(value);
     }
   }
@@ -986,11 +944,8 @@ function updateNotes(id, val) {
   const c = clients.find(x => x.id === id);
   if(c) {
     c.notes = val;
-    // Guardamos sin disparar render (solo guardado en memoria y Firestore)
-    saveLocal(clients); // guardado local inmediato
-    // Llamamos a saveToCloud sin esperar y sin render
+    saveLocal(clients);
     saveToCloud(clients).catch(err => console.error("Error guardando nota:", err));
-    // No llamamos a render() para evitar recargar el textarea
   }
 }
 
@@ -1019,23 +974,16 @@ function updateMilestoneDate(id, key, val) {
   }
 }
 
-
 async function deleteClient(id) {
   const c = clients.find(x => x.id === id);
   if (!c) return;
   if (confirm(`¿Estás seguro de eliminar permanentemente el caso "${escapeHtml(c.name)}"?`)) {
     try {
-      // 1. Eliminar de Firestore
       await db.collection("clients").doc(id).delete();
       console.log(`✅ Documento ${id} eliminado de Firestore`);
-
       
       clients = clients.filter(x => x.id !== id);
-
-      // 3. Guardar cambios (actualizar el resto en Firestore y localStorage)
       await saveAndSync(clients);
-
-      // 4. Actualizar UI
       resetPagination();
       render();
       showToast('🗑️ Caso eliminado correctamente', 'success');
@@ -1507,30 +1455,20 @@ async function initApp() {
   }, 8 * 60 * 60 * 1000);
 }
 </script>
-<script>
-async function initApp() {
-    console.error("Error en inicialización:", e);
-    clients = loadLocal();
-}
-switchTab('Line C');
-setTimeout(() => {
-    auth.signout();
-    alert(' Sesión expirada por seguridad. Vuelve a iniciar sesión.');
-}, 8 * 60 * 60 * 1000);
-</script>
+
+<!-- ===== FOOTER ===== -->
 <footer style="
     text-align: center; 
-    padding: 18px 2rem; 
+    padding: 14px 2rem; 
     color: #94A3B8; 
     font-size: 13px; 
     border-top: 1px solid rgba(255,255,255,0.06);
-    background: rgba(15, 23, 42, 0.8);
+    background: rgba(15, 23, 42, 0.9);
     backdrop-filter: blur(10px);
-    margin-top: 2rem;
     width: 100%;
-    position: sticky;
-    bottom: 0;
-    z-index: 5;
+    position: relative;
+    margin-top: 2rem;
+    flex-shrink: 0;
 ">
     <div style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;">
         <span style="font-size: 16px;">⚡</span>
@@ -1544,5 +1482,6 @@ setTimeout(() => {
         ✦ Strategic Client Management System ✦
     </div>
 </footer>
+
 </body>
 </html>
