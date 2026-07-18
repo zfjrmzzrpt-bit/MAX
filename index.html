@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jose's Communication Protocol</title>
+<title>JCP Jose's Communication Protocol v4.1 - Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
 <!-- Firebase CDN -->
@@ -12,7 +12,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 
 <style>
-  /* ========== ESTILOS MEJORADOS ========== */
+  /* ========== ESTILOS () ========== */
   :root {
     --bg: #090D16;
     --sidebar-bg: #030712;
@@ -143,21 +143,7 @@
   .sidebar-menu { padding: 1.5rem 1rem; flex: 1; overflow-y: auto; }
   .menu-section { margin-bottom: 1.75rem; }
   .menu-label { font-size: 11px; font-weight: 700; color: var(--text-faint); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 0.6rem; padding-left: 0.5rem; }
-  /* --- LETRAS MÁS GRANDES EN EL MENÚ --- */
-  .menu-item {
-    display: flex;
-    align-items: center;
-    padding: 11px 14px;
-    color: var(--sidebar-text);
-    font-size: 16px; /* Aumentado de 13px a 16px */
-    font-weight: 600;
-    text-decoration: none;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-bottom: 5px;
-    border: 1px solid transparent;
-  }
+  .menu-item { display: flex; align-items: center; padding: 11px 14px; color: var(--sidebar-text); font-size: 13px; font-weight: 600; text-decoration: none; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; margin-bottom: 5px; border: 1px solid transparent; }
   .menu-item:hover { background: var(--sidebar-hover); color: #FFF; border-color: rgba(255,255,255,0.02); }
   .menu-item.active { background: linear-gradient(90deg, rgba(59,130,246,0.15) 0%, rgba(59,130,246,0.02) 100%); color: #60A5FA; border-left: 3px solid var(--accent); font-weight: 700; }
   .menu-item.line-a { border-left-color: var(--teal); }
@@ -316,7 +302,7 @@
   .btn-reminder:hover { background: rgba(245,158,11,0.2); }
   .btn-stats { background: var(--purple-bg); color: var(--purple-dark); border-color: rgba(168,85,247,0.3); font-size: 11px; padding: 4px 12px; }
 
-  .history-container { margin-top: 2.5rem; border-top: 2px dashed var(--border); padding-top: 1.5rem; }
+  .history-container { margin-top: 2.5rem; border-top: 2px dashed var(--border); padding-top: 1.5rem;p adding-bottom: 80px; }
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
   .modal-overlay.open { display: flex; }
   .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; width: 100%; max-width: 520px; box-shadow: var(--shadow); max-height: 90vh; overflow-y: auto; }
@@ -360,7 +346,7 @@
 <!-- ===== LOGIN ===== -->
 <div id="login-screen">
   <div class="login-box">
-    <h1>📡 Jose's Communication Protocol</h1>
+    <h1>🔐 JCP Jose's Communication Protocol</h1>
     <p>Inicia sesión para acceder al sistema</p>
     <div class="form-group"><label>Correo electrónico</label><input type="email" id="login-email" placeholder="tu@email.com" autocomplete="email"></div>
     <div class="form-group"><label>Contraseña</label><input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"></div>
@@ -381,16 +367,15 @@
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="brand-logo">JCP</div>
-        <div class="brand-meta"><h2>Jose's Communication Protocol</h2><span>v1.0</span></div>
+        <div class="brand-meta"><h2>Jose's Communication Protocol</h2><span>PRO v1.0</span></div>
       </div>
       <div class="sidebar-menu">
         <div class="menu-section">
           <div class="menu-label">📂 Flows Assignment</div>
-          <!-- Líneas sin "(10d)" ni "(15d)" y con letras más grandes (ya en CSS) -->
-          <div class="menu-item line-a" id="menu-line-a" onclick="switchTab('Line A')">○ Line A</div>
-          <div class="menu-item line-b" id="menu-line-b" onclick="switchTab('Line B')">○ Line B</div>
-          <div class="menu-item line-c active" id="menu-line-c" onclick="switchTab('Line C')">○ Line C</div>
-          <div class="menu-item line-d" id="menu-line-d" onclick="switchTab('Line D')">○ Line D</div>
+          <div class="menu-item line-a" id="menu-line-a" onclick="switchTab('Line A')">○ Line A Matrix (10d)</div>
+          <div class="menu-item line-b" id="menu-line-b" onclick="switchTab('Line B')">○ Line B Matrix (10d)</div>
+          <div class="menu-item line-c active" id="menu-line-c" onclick="switchTab('Line C')">○ Line C Matrix (10d)</div>
+          <div class="menu-item line-d" id="menu-line-d" onclick="switchTab('Line D')">○ Line D Matrix (15d)</div>
         </div>
         <div class="menu-section">
           <div class="menu-label">📊 Metrics Filters</div>
@@ -418,9 +403,8 @@
       <div class="view-viewport" id="viewport">
         <div class="view-header">
           <div class="view-title">
-            <!-- Título sin "Matrix" ni "(10d)" -->
-            <h3 id="current-workflow-title">💼 Current Workflow: Line C</h3>
-            <p>Jose's Communication Protocol - Strategic Client Management</p>
+            <h3 id="current-workflow-title">💼 Current Workflow: Line C Matrix (10d)</h3>
+            <p>Automated Legal Workflow Engine & Strategic Client Intervals</p>
           </div>
           <button class="btn btn-primary" onclick="openAdd()">➕ Add New Case</button>
         </div>
@@ -473,7 +457,7 @@
 <!-- ===== MODALES ===== -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <h2>Add New Client</h2> <!-- Cambiado -->
+    <h2>Add New Protocol Client</h2>
     <div class="form-group"><label>Client Name & ID Case *</label><input type="text" id="f-name" placeholder="e.g. 7874 Evangelina Lara"></div>
     <div class="form-group">
       <label>Workflow Assignment *</label>
@@ -645,7 +629,7 @@ function initials(name) {
 }
 
 // ============================================================
-// MAPEO DE LÍNEAS (COMPATIBLE CON DATOS EXISTENTES)
+// MAPEO DE LÍNEAS
 // ============================================================
 const FLOW_DISPLAY_MAP = {
   'Francy': 'Line C',
@@ -753,7 +737,7 @@ function saveLocal(data) {
   localStorage.setItem(KEY, JSON.stringify(data));
 }
 
-// --- Persistencia: Firestore ---
+// --- Persistencia: Firestore (SOLO COLECCIÓN, sin respaldo) ---
 async function saveToCloud(newData) {
   showSaving();
   let errors = [];
@@ -778,6 +762,7 @@ async function saveToCloud(newData) {
       console.log(`✅ Cliente ${i} (${client.name || client.id}) guardado`);
     } catch (error) {
       console.error(`❌ Error guardando cliente ${i}:`, client.name || client.id, error);
+      console.log('📦 Cliente problemático:', JSON.stringify(client, null, 2));
       errors.push({
         index: i,
         client: client,
@@ -819,7 +804,7 @@ async function loadFromCloud() {
       }
     });
 
-    console.log(`✅ Datos cargados desde Firebase: ${loaded.length} clientes`);
+    console.log(`✅ Datos cargados desde la nueva colección: ${loaded.length} clientes`);
     return loaded;
 
   } catch (error) {
@@ -953,8 +938,8 @@ function switchTab(displayFlow) {
   const menuMap = { 'Line A': 'menu-line-a', 'Line B': 'menu-line-b', 'Line C': 'menu-line-c', 'Line D': 'menu-line-d' };
   const menuId = menuMap[displayFlow];
   if (menuId) document.getElementById(menuId).classList.add('active');
-  // Título sin "Matrix" ni "(10d)"
-  document.getElementById('current-workflow-title').innerText = `💼 Current Workflow: ${displayFlow}`;
+  const config = getLineConfig(internalFlow);
+  document.getElementById('current-workflow-title').innerText = `💼 Current Workflow: ${displayFlow} Matrix (${config.interval}d / ${config.step}d)`;
   resetPagination();
   render();
 }
@@ -999,7 +984,14 @@ function toggleQuick(id, field, val) {
 
 function updateNotes(id, val) {
   const c = clients.find(x => x.id === id);
-  if(c) { c.notes = val; saveAndSync(clients); }
+  if(c) {
+    c.notes = val;
+    // Guardamos sin disparar render (solo guardado en memoria y Firestore)
+    saveLocal(clients); // guardado local inmediato
+    // Llamamos a saveToCloud sin esperar y sin render
+    saveToCloud(clients).catch(err => console.error("Error guardando nota:", err));
+    // No llamamos a render() para evitar recargar el textarea
+  }
 }
 
 function updateStatus(id, val) {
@@ -1027,15 +1019,23 @@ function updateMilestoneDate(id, key, val) {
   }
 }
 
-// ===== DELETE CLIENT =====
+
 async function deleteClient(id) {
   const c = clients.find(x => x.id === id);
   if (!c) return;
   if (confirm(`¿Estás seguro de eliminar permanentemente el caso "${escapeHtml(c.name)}"?`)) {
     try {
+      // 1. Eliminar de Firestore
       await db.collection("clients").doc(id).delete();
+      console.log(`✅ Documento ${id} eliminado de Firestore`);
+
+      
       clients = clients.filter(x => x.id !== id);
+
+      // 3. Guardar cambios (actualizar el resto en Firestore y localStorage)
       await saveAndSync(clients);
+
+      // 4. Actualizar UI
       resetPagination();
       render();
       showToast('🗑️ Caso eliminado correctamente', 'success');
@@ -1408,7 +1408,7 @@ function renderCard(c) {
       <div class="chips">${fuChips}</div>
       <div class="section-label" style="margin-top:12px;">📢 Formal Letters Timeline</div>
       <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;">${msCardsHTML}</div>
-      <textarea class="notes-area" onchange="updateNotes('${c.id}',this.value)" placeholder="Write logs or ongoing follow-up notes here...">${escapeHtml(c.notes||'')}</textarea>
+      <textarea class="notes-area" onblur="updateNotes('${c.id}',this.value)" placeholder="Write logs or ongoing follow-up notes here...">${escapeHtml(c.notes||'')}</textarea>
       <div class="card-actions">
         <select onchange="updateStatus('${c.id}',this.value)">
           <option value="Active" ${c.status==='Active'?'selected':''}>Active</option>
@@ -1483,7 +1483,7 @@ function render() {
 }
 
 // ============================================================
-// INICIALIZACIÓN (ÚNICA Y CORRECTA)
+// INICIALIZACIÓN
 // ============================================================
 let searchTimer = null;
 document.getElementById('search').addEventListener('input', function() {
@@ -1496,30 +1496,28 @@ async function initApp() {
     const cloudData = await loadFromCloud();
     clients = cloudData || loadLocal();
     console.log(`📊 Total de clientes cargados: ${clients.length}`);
-    // Mostrar distribución para depuración
-    const distribution = {};
-    clients.forEach(c => {
-      const flow = c.flow || 'sin línea';
-      distribution[flow] = (distribution[flow] || 0) + 1;
-    });
-    console.log('📊 Distribución:', distribution);
-    render();
   } catch (e) {
     console.error("Error en inicialización:", e);
     clients = loadLocal();
-    render();
   }
-  // Iniciar en la línea C (o la que corresponda)
   switchTab('Line C');
-  // Cierre de sesión automático después de 8 horas
   setTimeout(() => {
     auth.signOut();
     alert('⏰ Sesión expirada por seguridad. Vuelve a iniciar sesión.');
   }, 8 * 60 * 60 * 1000);
 }
 </script>
-
-<!-- ===== FOOTER ===== -->
+<script>
+async function initApp() {
+    console.error("Error en inicialización:", e);
+    clients = loadLocal();
+}
+switchTab('Line C');
+setTimeout(() => {
+    auth.signout();
+    alert(' Sesión expirada por seguridad. Vuelve a iniciar sesión.');
+}, 8 * 60 * 60 * 1000);
+</script>
 <footer style="
     text-align: center; 
     padding: 18px 2rem; 
@@ -1546,6 +1544,5 @@ async function initApp() {
         ✦ Strategic Client Management System ✦
     </div>
 </footer>
-
 </body>
 </html>
