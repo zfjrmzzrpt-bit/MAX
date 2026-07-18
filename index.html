@@ -1466,8 +1466,9 @@ async function initApp() {
     background: rgba(15, 23, 42, 0.9);
     backdrop-filter: blur(10px);
     width: 100%;
-    position: relative;
-    margin-top: 2rem;
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
     flex-shrink: 0;
 ">
     <div style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;">
