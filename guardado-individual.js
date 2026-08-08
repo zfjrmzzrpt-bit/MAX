@@ -44,7 +44,12 @@
     const c = clients.find(x => x.id === id);
     if (!c) return;
     c.archived = state;
-    if (state) c.status = 'Send Case Closure';
+    if (state) {
+      c.status = 'Send Case Closure';
+      c.completedAt = new Date().toISOString();
+    } else {
+      delete c.completedAt;
+    }
     await saveOne(c);
     resetPagination();
   };
