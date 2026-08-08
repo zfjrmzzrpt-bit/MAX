@@ -531,9 +531,16 @@
 // ============================================================
 // CONFIGURACIÓN DE FIREBASE
 // ============================================================
-<script src="config.js"></script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDWydY5OoD_8GcdZ-l0HxU8im0Mk8qKpnQ",
+  authDomain: "communication-system-d6578.firebaseapp.com",
+  projectId: "communication-system-d6578",
+  storageBucket: "communication-system-d6578.firebasestorage.app",
+  messagingSenderId: "10056868678",
+  appId: "1:10056868678:web:ca72822204513cfd951327",
+  measurementId: "G-39FCVRV5M9"
+};
 
-const firebaseConfig = window.FIREBASE_CONFIG;
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
