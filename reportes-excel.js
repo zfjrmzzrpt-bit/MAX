@@ -20,6 +20,13 @@
   }
 
   function splitName(value) {
+    // Los casos nuevos guardan estos campos separados; los anteriores siguen siendo compatibles.
+    if (value && typeof value === 'object') {
+      return {
+        caseNumber: String(value.caseNumber || '').trim(),
+        fullName: String(value.fullName || value.name || '').trim()
+      };
+    }
     const text = String(value || '').trim();
     const match = text.match(/^(\d+)\s+(.+)$/);
     return {
@@ -59,7 +66,7 @@
       .filter(client => !isExcluded(client))
       .filter(client => line === 'All' || displayLine(client) === line)
       .map(client => {
-        const name = splitName(client.name);
+        const name = (client.caseNumber || client.fullName) ? splitName(client) : splitName(client.name);
         const next = nextLetter(client);
         return {
           caseNumber: name.caseNumber || client.id || '',

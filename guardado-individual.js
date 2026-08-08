@@ -4,6 +4,22 @@
   'use strict';
   const noteTimers = new Map();
 
+  function prepareCaseForm() {
+    const combinedInput = document.getElementById('f-name');
+    if (!combinedInput || document.getElementById('f-case-number')) return;
+    const group = combinedInput.closest('.form-group');
+    if (!group) return;
+    group.outerHTML = `
+      <div class="form-group">
+        <label>Número de caso *</label>
+        <input type="text" id="f-case-number" placeholder="Ej.: 7874">
+      </div>
+      <div class="form-group">
+        <label>Nombre completo *</label>
+        <input type="text" id="f-name" placeholder="Ej.: Evangelina Lara">
+      </div>`;
+  }
+
   async function saveOne(client, options) {
     const config = Object.assign({ render: true, successMessage: 'Datos guardados' }, options);
     if (!client || !client.id) throw new Error('No se encontró el caso que se debe guardar.');
@@ -125,20 +141,27 @@
 
   window.addClient = async function () {
     const name = document.getElementById('f-name').value.trim();
+    const caseNumber = document.getElementById('f-case-number').value.trim();
     const displayFlow = document.getElementById('f-flow').value;
     const date = document.getElementById('f-date').value;
     const status = document.getElementById('f-status').value;
     const notes = document.getElementById('f-notes').value.trim();
-    if (!name || !date) return alert('Please fill in Name and Date.');
+    if (!caseNumber || !name || !date) return alert('Please fill in Case Number, Full Name and Date.');
     const client = {
-      id: 'custom_' + Date.now(), flow: getInternalFlow(displayFlow), name, letterDate: date, status, notes,
+      id: 'custom_' + Date.now(), flow: getInternalFlow(displayFlow),
+      caseNumber, fullName: name, name: `${caseNumber} ${name}`,
+      letterDate: date, status, notes,
       confirmed: false, uploaded_camp_legal: false, done: {}, cl_uploaded_milestones: {}, archived: false, reminders: []
     };
     clients.push(client);
     await saveOne(client);
     closeAdd();
     resetPagination();
+    document.getElementById('f-case-number').value = '';
     document.getElementById('f-name').value = '';
     document.getElementById('f-notes').value = '';
   };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', prepareCaseForm);
+  else prepareCaseForm();
 })();
