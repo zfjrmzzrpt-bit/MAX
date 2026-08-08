@@ -306,7 +306,7 @@
     margin-top: 2.5rem; 
     border-top: 2px dashed var(--border); 
     padding-top: 1.5rem; 
-    padding-bottom: 90px;
+    padding-bottom: 90px; /* Espacio para el footer */
   }
   
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
@@ -527,9 +527,6 @@
 
 <div id="save-indicator">💾 Guardando...</div>
 
-<!-- ============================================================ -->
-<!-- TODAS LAS FUNCIONES PRINCIPALES (DENTRO DEL HTML)              -->
-<!-- ============================================================ -->
 <script>
 // ============================================================
 // CONFIGURACIÓN DE FIREBASE
@@ -1325,7 +1322,7 @@ function renderCard(c) {
     reminderHTML += `</div>`;
   }
 
-  return `<div class="client-card" data-client-id="${c.id}">
+  return `<div class="client-card">
     <div class="client-header">
       <div class="avatar ${avatarClass}" onclick="toggle('${c.id}')">${initials(c.name)}</div>
       <div class="client-info" onclick="toggle('${c.id}')">
@@ -1459,11 +1456,6 @@ async function initApp() {
 }
 </script>
 
-<!-- ============================================================ -->
-<!-- ARCHIVO OPTIMIZADO (se carga DESPUÉS de todas las funciones)  -->
-<!-- ============================================================ -->
-<script src="jcp-optimizado.js"></script>
-
 <!-- ===== FOOTER ===== -->
 <footer style="
     text-align: center; 
@@ -1491,6 +1483,8 @@ async function initApp() {
         ✦ Strategic Client Management System ✦
     </div>
 </footer>
-
+<script src="reportes-excel.js"></script>
+<script src="guardado-individual.js"></script>
+<script src="organizacion-casos.js"></script>
 </body>
 </html>
